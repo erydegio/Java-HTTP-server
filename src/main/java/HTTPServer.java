@@ -28,7 +28,7 @@ public class HTTPServer extends TCPServer
         resHeaders.put("Content-Length: ", BODY.length() + "\r\n");
     }
 
-    // Response handling
+    // RESPONSE HANDLING
     @Override
     public String makeResponse(String data)
     {
@@ -45,8 +45,10 @@ public class HTTPServer extends TCPServer
         return "HTTP/1.1 " + statusCode + " " + reason;
     }
 
-    public String responseHeaders(HashMap<String,String> extraHeaders) {
+    public String responseHeaders(HashMap<String,String> extraHeaders)
+    {
         HashMap<String, String> resHeadersShallowCopy = new HashMap<String, String>(resHeaders);
+
         // add extra-headers to current headers
         if (extraHeaders != null)
             resHeadersShallowCopy.putAll(extraHeaders);
@@ -60,7 +62,21 @@ public class HTTPServer extends TCPServer
         return headers.toString();
     }
 
-    // Request handling
+    // REQUESTS HANDLING
+    @Override
+    public String handleRequest(String data)
+    {
+
+        return data;
+    }
+
+    public void handle_GET()
+    {
+        System.out.println("triggered handle_GET");
+    }
+
+
+
 
 
 

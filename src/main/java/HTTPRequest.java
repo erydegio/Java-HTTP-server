@@ -8,11 +8,29 @@ public class HTTPRequest
 
     HTTPRequest(String data)
     {
-        this.data = data;
-        this.words = data.split("\n")[0].split(" ");
-        setMethod();
-        //seturi
-        //sethttpversion
+        this.data = data; // request of the client formatted in string
+        this.words = data.split("\n")[0].split(" "); // array of words of the request line
+        parse(data);
+    }
+
+    public void setHttpVersion()
+    {
+        httpVersion = words[2];
+    }
+
+    public String getHttpVersion()
+    {
+        return httpVersion;
+    }
+
+    public void setUri()
+    {
+        uri = words[1];
+    }
+
+    public String getUri()
+    {
+        return uri;
     }
 
     public void setMethod()
@@ -27,15 +45,13 @@ public class HTTPRequest
 
     public void parse(String data)
     {
-        //change here
-        String[] lines = data.split("\n");
-        String[] words = data.split("\n")[0].split(" ");
+        setMethod();
 
         if (words.length > 1) {
-            uri = words[1];
+            setUri();
         }
         if (words.length > 2) {
-            httpVersion = words[2];
+            setHttpVersion();
         }
     }
 

@@ -8,9 +8,9 @@ public class TCPServer
     private Integer         port;
     private Socket          socket   = null;
     private ServerSocket    server   = null;
-    private boolean         running = false;
+    private boolean         running  = false;
     private BufferedReader  in       =  null;
-    private PrintWriter     out       =  null;
+    private PrintWriter     out      =  null;
 
 
 
@@ -39,7 +39,12 @@ public class TCPServer
 
                     // request/response handler
                     // echoes the data received
-                    handleRequest();
+                    String data = receiveData();
+                    String request = handleRequest(data);
+                    String response = makeResponse(request);
+                    sendData(response);
+
+
                 }
                 finally
                 {
@@ -61,23 +66,17 @@ public class TCPServer
 
     }
 
-    public void handleRequest() throws IOException
-    {
-        // read all the data, and send a response
-        String data = receiveData();
-        HTTPRequest req = new HTTPRequest(data);
-        System.out.println();
-        String response = makeResponse(data.toString());
-        sendData(response);
+    public String handleRequest(String data) {
+        return data;
     }
 
     public String receiveData() throws IOException
     {
-        // read all the data received from the client and print them after inserting an empty line
+        // read all the data received from the client and return them in string format
         in = new BufferedReader(
                 new InputStreamReader(socket.getInputStream()));
 
-        String line = null;
+        String line;
         StringBuilder data = new StringBuilder();
 
         while ((line = in.readLine()) != null)
@@ -91,9 +90,9 @@ public class TCPServer
 
     // handle incoming data and return a response
     // echoes the data sent by the client
-    public String makeResponse( String data)
+    public String makeResponse( String request)
     {
-        return data;
+        return request;
     }
 
    public void sendData(String response) throws IOException
