@@ -1,7 +1,7 @@
 public class HTTPRequest
 {
     private String meth = null;
-    private String uri = null;
+    private String uri = null; // path
     private String httpVersion = "1.1"; //default to HTTP/1.1 if request doesn't provide a version
     private String data;
     private String[] words;
@@ -55,10 +55,7 @@ public class HTTPRequest
         }
     }
 
-    public void handle_GET()
-    {
-        System.out.println("triggered handle_GET");
-    }
+
 
 
 }

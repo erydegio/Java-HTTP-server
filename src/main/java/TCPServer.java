@@ -1,18 +1,13 @@
 import java.io.*;
-import java.lang.reflect.InvocationTargetException;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-public class TCPServer
+public abstract class TCPServer
 {
 
-    private Integer         port;
+    private final Integer   port;
     private Socket          socket   = null;
     private ServerSocket    server   = null;
-    private boolean         running  = false;
-    private BufferedReader  in       =  null;
-    private PrintWriter     out      =  null;
-
 
 
     public TCPServer(Integer port)
@@ -27,7 +22,7 @@ public class TCPServer
             server = new ServerSocket(port);
 
             // -- thread should start ----
-            running = true;
+            boolean running = true;
 
             while (running)
             {
@@ -40,10 +35,9 @@ public class TCPServer
 
                     // request/response handler
                     // echoes the data received
-                    String data = receiveData();
-                    String request = handleRequest(data);
-                    String response = makeResponse(request);
-                    sendData(response);
+                    String data = receiveData(); //return data in string format from bytearray
+                    String response = handleRequest(data); // from data string return a request after parsing it!! genera request
+                    sendData(response); // send the response
 
 
                 }
@@ -67,14 +61,15 @@ public class TCPServer
 
     }
 
-    public String handleRequest(String data) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
+    public String handleRequest(String data)
+    {
         return data;
     }
 
     public String receiveData() throws IOException
     {
         // read all the data received from the client and return them in string format
-        in = new BufferedReader(
+        BufferedReader in = new BufferedReader(
                 new InputStreamReader(socket.getInputStream()));
 
         String line;
@@ -89,17 +84,12 @@ public class TCPServer
         return data.toString();
     }
 
-    // handle incoming data and return a response
-    // echoes the data sent by the client
-    public String makeResponse( String request)
-    {
-        return request;
-    }
+
 
    public void sendData(String response) throws IOException
    {
        OutputStream output = socket.getOutputStream();
-       out = new PrintWriter(output, true);
+       PrintWriter out = new PrintWriter(output, true);
        out.println(response);
    }
 
