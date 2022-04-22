@@ -1,6 +1,6 @@
 public class HTTPRequest
 {
-    private String method = null;
+    private String meth = null;
     private String uri = null;
     private String httpVersion = "1.1"; //default to HTTP/1.1 if request doesn't provide a version
     private String data;
@@ -33,19 +33,19 @@ public class HTTPRequest
         return uri;
     }
 
-    public void setMethod()
+    public void setMeth()
     {
-        method = words[0];
+        meth = words[0];
     }
 
-    public String getMethod()
+    public String getMeth()
     {
-        return method;
+        return meth;
     }
 
     public void parse(String data)
     {
-        setMethod();
+        setMeth();
 
         if (words.length > 1) {
             setUri();
@@ -53,6 +53,11 @@ public class HTTPRequest
         if (words.length > 2) {
             setHttpVersion();
         }
+    }
+
+    public void handle_GET()
+    {
+        System.out.println("triggered handle_GET");
     }
 
 

@@ -1,4 +1,5 @@
 import java.io.*;
+import java.lang.reflect.InvocationTargetException;
 import java.net.ServerSocket;
 import java.net.Socket;
 
@@ -19,7 +20,7 @@ public class TCPServer
         this.port = port;
     }
 
-    public void startServer() throws IOException
+    public void startServer() throws Exception
     {
         try
         {
@@ -66,7 +67,7 @@ public class TCPServer
 
     }
 
-    public String handleRequest(String data) {
+    public String handleRequest(String data) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
         return data;
     }
 

@@ -1,3 +1,6 @@
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.HashMap;
 
 public class HTTPServer extends TCPServer
@@ -64,8 +67,12 @@ public class HTTPServer extends TCPServer
 
     // REQUESTS HANDLING
     @Override
-    public String handleRequest(String data)
-    {
+    public String handleRequest(String data) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
+        HTTPRequest req =
+                new HTTPRequest(data);
+
+        Method m = req.getClass().getMethod("handle" + "_" + req.getMeth());
+        var res = m.invoke(req);
 
         return data;
     }
