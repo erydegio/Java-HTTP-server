@@ -1,9 +1,10 @@
 
-import java.lang.reflect.Method;
+import java.io.IOException;
 
 
-public class HTTPServer extends TCPServer
-{
+
+public class HTTPServer extends TCPServer {
+
     public HTTPServer(Integer port)
     {
         super(port);
@@ -11,25 +12,25 @@ public class HTTPServer extends TCPServer
 
     // REQUESTS HANDLING
     @Override
-    public String handleRequest(String data)
-    {
-        HTTPRequest req = new HTTPRequest(data);
-        HTTPResponse res = new HTTPResponse();
+    public void run() {
+        running = true;
 
-        //make responses
-        try
-        {
-            Method m = res.getClass().getMethod("handle" + "_" + req.getMeth());
-            Object resData = m.invoke(req);
-            res.setResponse((String) resData);
+        while (running) {
 
-        } catch (Exception e)
-        {
-            res.setResponse(res.handleUnknownMethods());
+            try {
+
+                System.out.println("Server listening on port " + port);
+                socket = server.accept();
+
+                HTTPRequestHandler newTask = new HTTPRequestHandler(socket); //interface
+                Thread newThread = new Thread(newTask); // thread class
+                newThread.start();
+
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
-
-        return res.getResponse();
-
     }
 
 
