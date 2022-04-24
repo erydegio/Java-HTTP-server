@@ -2,7 +2,7 @@ import java.io.IOException;
 import java.lang.reflect.Method;
 import java.net.Socket;
 
-public class HTTPRequestHandler extends RequestHandler {
+public class HTTPRequestHandler extends TCPRequestHandler {
 
     public HTTPRequestHandler(Socket socket) throws IOException {
         super(socket);
@@ -11,9 +11,8 @@ public class HTTPRequestHandler extends RequestHandler {
     @Override
     public void run() {
 
-        System.out.println("Connected by " + socket.getInetAddress());
-
         try {
+            System.out.println(Thread.currentThread() + " request handling");
 
             //String line;
             StringBuilder data = new StringBuilder();

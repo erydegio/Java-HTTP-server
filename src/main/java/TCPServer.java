@@ -4,12 +4,23 @@ import java.net.Socket;
 
 
 //TCPServer extends Thread to handle the blocking accept() call.
-public abstract class TCPServer extends Thread {
+public class TCPServer extends Thread {
 
     protected final Integer port;
     protected Socket socket = null;
     protected ServerSocket server = null;
-    boolean running = false;
+   // boolean running = false;
+
+    public static void main( String[] args ) throws Exception {
+
+        // listen for incoming connections on port 8080
+        TCPServer server = new TCPServer(8080);
+        server.startServer();
+
+        //shutdown the server after one minute
+        Thread.sleep( 60000 );
+        server.stopServer();
+    }
 
 
     public TCPServer(Integer port) {
@@ -22,18 +33,19 @@ public abstract class TCPServer extends Thread {
         this.start();
     }
 
-    // Accept client requests and create RequestHandler threads to process the request.
+
     @Override
     public void run() {
-        running = true;
+        //running = true;
+        System.out.println("Server listening on port " + port);
 
-        while (running) {
+        while (true) {
             try {
-                System.out.println("Server listening on port " + port);
                 socket = server.accept();
 
                 // pass the socket into another thread so the server can be scalable
-                Thread newThread = new Thread(new RequestHandler(socket));
+                TCPRequestHandler newTask = new TCPRequestHandler(socket);
+                Thread newThread = new Thread(newTask);
                 newThread.start();
 
             } catch (IOException e) {
@@ -42,10 +54,12 @@ public abstract class TCPServer extends Thread {
         }
     }
 
-    public void stopServer()
-    {
-        running = false;
-        this.interrupt();
+    public void stopServer() {
+
+        //this.interrupt();
+        System.out.println("Server closed.....");
+        System.exit( 0 );
+
     }
 }
 

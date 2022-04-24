@@ -14,38 +14,31 @@ public class HTTPRequest
         parse(data);
     }
 
-    public void setHttpVersion()
-    {
+    public void setHttpVersion() {
         httpVersion = words[2];
     }
 
-    public String getHttpVersion()
-    {
+    public String getHttpVersion() {
         return httpVersion;
     }
 
-    public void setUri()
-    {
+    public void setUri() {
         uri = words[1];
     }
 
-    public String getUri()
-    {
+    public String getUri() {
         return uri;
     }
 
-    public void setStatusCode()
-    {
+    public void setStatusCode() {
         statusCode = words[0];
     }
 
-    public String getStatusCode()
-    {
+    public String getStatusCode() {
         return statusCode;
     }
 
-    public void parse(String data)
-    {
+    public void parse(String data) {
         if (words.length > 0) {
             setStatusCode();
         }
