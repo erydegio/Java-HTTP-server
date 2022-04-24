@@ -5,9 +5,10 @@ public class Main {
         server.startServer();
 
         //shut down the server after one minute
-        Thread.sleep( 600000 );
+        // TO DO: shut down the server with CTRL+C
+        Thread.sleep( 60000 );
         server.stopServer();
-        System.out.println("Server closed...");
+        System.out.println("Server closed.....");
 
     }
 }

@@ -2,7 +2,6 @@
 import java.io.IOException;
 
 
-
 public class HTTPServer extends TCPServer {
 
     public HTTPServer(Integer port)
@@ -22,8 +21,8 @@ public class HTTPServer extends TCPServer {
                 System.out.println("Server listening on port " + port);
                 socket = server.accept();
 
-                HTTPRequestHandler newTask = new HTTPRequestHandler(socket); //interface
-                Thread newThread = new Thread(newTask); // thread class
+                //HTTPRequestHandler newTask = new HTTPRequestHandler(socket) ; //interface
+                Thread newThread = new Thread(new HTTPRequestHandler(socket)); // thread class
                 newThread.start();
 
 

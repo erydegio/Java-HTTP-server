@@ -10,7 +10,6 @@ public class RequestHandler implements Runnable {
     protected String line;
 
 
-
     public RequestHandler(Socket socket) throws IOException {
         this.socket = socket;
         in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
@@ -24,6 +23,7 @@ public class RequestHandler implements Runnable {
 
         try {
 
+            // If the client sends an empty line RequestHandler closes the socket.
             while ((line = in.readLine()) != null) {
                 System.out.println(line);
                 out.println(line);

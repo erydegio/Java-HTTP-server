@@ -29,14 +29,12 @@ public class HTTPRequestHandler extends RequestHandler {
             HTTPResponse res = new HTTPResponse();
 
             //make responses
-            try
-            {
-                Method m = res.getClass().getMethod("handle" + "_" + req.getMeth());
+            try {
+                Method m = res.getClass().getMethod("handle" + "_" + req.getStatusCode());
                 Object resData = m.invoke(res);
                 res.setResponse((String) resData);
 
-            } catch (Exception e)
-            {
+            } catch (Exception e) {
                 res.setResponse(res.handleUnknownMethods());
             }
 

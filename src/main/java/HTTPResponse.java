@@ -2,9 +2,10 @@ import java.util.HashMap;
 
 public class HTTPResponse {
 
-    private static final String BODY = "<html><head><title>Hello!</title></head><body><p>Hello!!!</p></body></html>";
     private final HashMap<String, String> resHeaders = new HashMap<>();
     private final HashMap<Integer, String> resStatusCodes = new HashMap<>();
+    private static final java.util.Date date = new java.util.Date();
+    private static final String BODY = "<html><head><title>Hello!</title></head><body><p>Hello!!!</p>" + date + "</body></html>";
     private String response;
 
     public HTTPResponse() {
@@ -19,7 +20,6 @@ public class HTTPResponse {
     public String getResponse() {
         return response;
     }
-
 
     public void setResHeaders()
     {
