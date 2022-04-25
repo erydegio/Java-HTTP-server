@@ -1,65 +1,30 @@
-
 import java.io.IOException;
-import java.net.ServerSocket;
-import java.net.Socket;
 
-
-public class HTTPServer extends Thread {
-
-    private final Integer port;
-    private Socket socket = null;
-    private ServerSocket server = null;
-
-    public static void main( String[] args ) throws Exception {
-
-        // listen for incoming connections on port 8080
-        HTTPServer server = new HTTPServer(8080);
-        server.startServer();
-
-        //shutdown the server after one minute
-        // TO DO: shutdown the server with CTRL+C
-        Thread.sleep( 60000 );
-        server.stopServer();
-
-    }
-
+public class HTTPServer extends TCPServer {
 
     public HTTPServer(Integer port) {
-        this.port = port;
+        super(port);
     }
-
-    public void startServer() throws IOException {
-        server = new ServerSocket(port);
-        this.start();
-    }
-
 
     @Override
     public void run() {
 
-        System.out.println("Server listening on port " + port);
+        while (running) try {
 
-        while (true) try {
             // Accept the client connection, create a socket
             socket = server.accept();
 
             // HTTPRequestHandler Runnable class passed in a Thread constructor to process multiple requests.
-            HTTPRequestHandler newTask = new HTTPRequestHandler(socket);
-            Thread newThread = new Thread(newTask);
-            newThread.start();
+            new Thread(new HTTPRequestHandler(socket)).start();
 
+          // if the server is already closed is raised an IOException
         } catch (IOException e) {
-            e.printStackTrace();
+            if (!running) {
+                System.out.println("Bye..");
+                return;
+            }
         }
     }
-
-    public void stopServer() {
-
-        System.out.println("Closing the Server...");
-        System.exit( 0 );
-
-    }
-
 
 
 
