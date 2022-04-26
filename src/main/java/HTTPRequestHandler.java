@@ -2,6 +2,9 @@ import java.io.IOException;
 import java.lang.reflect.Method;
 import java.net.Socket;
 
+// Handle the communication client-server respecting the HTTP protocol
+// It handles only GET and returns 501  "Not implemented" for every other type of request
+
 public class HTTPRequestHandler extends TCPRequestHandler {
 
     public HTTPRequestHandler(Socket socket) throws IOException {
@@ -12,7 +15,7 @@ public class HTTPRequestHandler extends TCPRequestHandler {
     public void run() {
 
         try {
-            System.out.println(Thread.currentThread() + " request handling");
+            System.out.println(Thread.currentThread() + " handling the request");
 
             //String line;
             StringBuilder data = new StringBuilder();
@@ -24,11 +27,16 @@ public class HTTPRequestHandler extends TCPRequestHandler {
                 if (line.isEmpty()) break;
             }
 
+            // Parse the data received and create a request object
             HTTPRequest req = new HTTPRequest(data.toString());
+
+            // Create a Response object based on the request
             HTTPResponse res = new HTTPResponse();
 
-            //make responses
+            // Set response type
             try {
+
+                // Check if the method of the request is implemented in the response object, if not implemented an Exception is raised during the search
                 Method m = res.getClass().getMethod("handle" + "_" + req.getStatusCode());
                 Object resData = m.invoke(res);
                 res.setResponse((String) resData);

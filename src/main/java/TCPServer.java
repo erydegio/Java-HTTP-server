@@ -2,6 +2,7 @@ import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 
+// Multithreaded TCP echo server, superclass of HTTPServer
 
 public class TCPServer implements Runnable {
 
@@ -15,7 +16,6 @@ public class TCPServer implements Runnable {
 
         this.port = port;
         try {
-            // start listening for incoming connections on port 8080
             startServer();
             System.out.println("Server listening on port " + port);
         } catch (IOException e) {
@@ -24,6 +24,7 @@ public class TCPServer implements Runnable {
     }
 
     public void startServer() throws IOException {
+        // start listening for incoming connections on port 8080
         server = new ServerSocket(port);
         running = true;
     }
@@ -34,14 +35,16 @@ public class TCPServer implements Runnable {
 
         while (running) try {
 
-            // Accept the client connection, create a socket
+            // Accept the client connection,
             socket = server.accept();
 
-            // HTTPRequestHandler Runnable class passed in a Thread constructor to process multiple requests.
+            // The Runnable interface defines a single method, run, meant to contain the code executed in the thread.
+            // TCPRequestHandler Runnable class passed in a Thread constructor to process multiple requests.
             new Thread(new TCPRequestHandler(socket)).start();
 
-            // if the server is already closed is raised an IOException
+            // Raise IOException if the server is closed
         } catch (IOException e) {
+
             if (!running) {
                 System.out.println("Bye..");
                 return;

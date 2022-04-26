@@ -2,6 +2,7 @@
 import java.io.*;
 import java.net.Socket;
 
+// Superclass of HTTPRequestHandler: handle the communication between client and server
 public class TCPRequestHandler implements Runnable {
 
     protected Socket socket;
