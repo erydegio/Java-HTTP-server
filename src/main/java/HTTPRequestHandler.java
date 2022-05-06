@@ -1,21 +1,34 @@
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
 import java.lang.reflect.Method;
 import java.net.Socket;
 
 // Handle the communication client-server respecting the HTTP protocol
 // It handles only GET and returns 501  "Not implemented" for every other type of request
 
-public class HTTPRequestHandler extends TCPRequestHandler {
+public class HTTPRequestHandler implements Runnable {
+
+    protected Socket socket;
+    protected BufferedReader in;
+    protected PrintWriter out;
+    protected String line;
+    String threadName = Thread.currentThread().getName();
+
 
     public HTTPRequestHandler(Socket socket) throws IOException {
-        super(socket);
+        this.socket = socket;
     }
 
     @Override
     public void run() {
 
         try {
-            System.out.println(Thread.currentThread() + " handling the request");
+            in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+            out = new PrintWriter(socket.getOutputStream(), true);
+            System.out.println("Connected by " + socket);
+            System.out.println(threadName + " handling the request");
 
             //String line;
             StringBuilder data = new StringBuilder();
